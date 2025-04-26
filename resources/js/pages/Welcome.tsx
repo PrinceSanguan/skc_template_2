@@ -1,33 +1,47 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
+import { useEffect } from 'react';
+import MartialArtsBackground from '@/components/welcomePage/martial-arts-background';
+import Navbar from '@/components/welcomePage/Navbar';
+import Hero from '@/components/welcomePage/Hero';
+import About from '@/components/welcomePage/About';
+import Services from '@/components/welcomePage/Services';
+import Feedback from '@/components/welcomePage/Feedback';
+import Communities from '@/components/welcomePage/Communities';
+import Blog from '@/components/welcomePage/Blog';
+import Location from '@/components/welcomePage/Location';
+import Booking from '@/components/welcomePage/Booking';
+import Contact from '@/components/welcomePage/Contact';
+import Footer from '@/components/welcomePage/Footer';
+import { initScrollAnimations } from '@/utils/animations';
 
 export default function Welcome() {
+    useEffect(() => {
+        // Initialize animations when component mounts
+        initScrollAnimations();
+    }, []);
+
     return (
         <>
-            <Head title="Welcome">
+            <Head title="Seigler's Karate Center">
                 <link rel="preconnect" href="https://fonts.bunny.net" />
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
             </Head>
 
-            <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-6">
-                <Card className="w-full max-w-md rounded-2xl shadow-xl">
-                    <CardContent className="p-8 text-center">
-                        <h1 className="mb-4 text-4xl font-bold text-gray-800">THIS IS MY PERSONAL BOILERPLATE</h1>
-                        <p className="mb-6 text-lg text-gray-600">Simple and straightforward starter template.</p>
-
-                        <div className="flex justify-center gap-4">
-                            <Button variant="default" asChild>
-                                <Link href={route('auth.login')}>Login</Link>
-                            </Button>
-
-                            <Button variant="outline" asChild>
-                                <Link href={route('auth.register')}>Register</Link>
-                            </Button>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
+            <MartialArtsBackground>
+                <div className="flex min-h-screen flex-col text-white">
+                    <Navbar />
+                    <Hero />
+                    <About />
+                    <Services />
+                    <Feedback />
+                    <Communities />
+                    <Blog />
+                    <Location />
+                    <Booking />
+                    <Contact />
+                    <Footer />
+                </div>
+            </MartialArtsBackground>
         </>
     );
 }
