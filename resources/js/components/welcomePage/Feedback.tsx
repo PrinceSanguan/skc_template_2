@@ -1,23 +1,24 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react"
 
 const Feedback = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const particlesRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null)
+  const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger)
 
-    const section = sectionRef.current;
-    const particles = particlesRef.current;
-    const cards = cardsRef.current;
+    const section = sectionRef.current
 
-    // Title animation
     if (section) {
+      // Title animation
       gsap.fromTo(
-        section.querySelector('.title-container'),
+        section.querySelector(".title-container"),
         { opacity: 0, y: 20 },
         {
           opacity: 1,
@@ -26,168 +27,209 @@ const Feedback = () => {
           ease: "power2.out",
           scrollTrigger: {
             trigger: section,
-            start: 'top 80%',
-          }
-        }
-      );
+            start: "top 80%",
+          },
+        },
+      )
     }
+  }, [])
 
-    // Cards animation
-    if (cards) {
-      gsap.fromTo(
-        cards.querySelectorAll('.testimonial-card'),
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.1,
-          duration: 0.6,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: cards,
-            start: 'top 80%',
-          }
-        }
-      );
+  // Animate content when testimonial changes
+  useEffect(() => {
+    const content = document.querySelector(".testimonial-text")
+    const avatar = document.querySelector(".testimonial-avatar")
+    const info = document.querySelector(".testimonial-info")
+
+    if (content && avatar && info && !isAnimating) {
+      setIsAnimating(true)
+
+      // Animate out
+      gsap.to([content, avatar, info], {
+        opacity: 0,
+        y: 20,
+        duration: 0.3,
+        stagger: 0.05,
+        ease: "power2.in",
+        onComplete: () => {
+          // Animate in
+          gsap.to([avatar, info, content], {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: "power2.out",
+            onComplete: () => {
+              setIsAnimating(false)
+            },
+          })
+        },
+      })
     }
-
-    // Create subtle fire particles
-    if (particles) {
-      const colors = ["#ff9500", "#ff6a00", "#ff4d00", "#ff8800"];
-      const particleInterval = setInterval(() => {
-        const particle = document.createElement('div');
-        const size = Math.random() * 4 + 1; // Smaller particles
-        const color = colors[Math.floor(Math.random() * colors.length)];
-
-        particle.style.position = 'absolute';
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.borderRadius = '50%';
-        particle.style.backgroundColor = color;
-        particle.style.opacity = (0.2 + Math.random() * 0.2).toString(); // Lower opacity
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.bottom = '0';
-
-        particles.appendChild(particle);
-
-        // Gentle upward movement
-        gsap.to(particle, {
-          x: Math.random() * 30 - 15, // Less horizontal movement
-          y: -(Math.random() * 100 + 50), // Less height
-          opacity: 0,
-          duration: 3 + Math.random() * 2,
-          ease: "power1.out",
-          onComplete: () => {
-            if (particles.contains(particle)) {
-              particles.removeChild(particle);
-            }
-          }
-        });
-      }, 300);
-
-      return () => {
-        if (particleInterval) {
-          clearInterval(particleInterval);
-        }
-      };
-    }
-  }, []);
+  }, [activeTestimonial])
 
   const testimonials = [
     {
       id: 1,
-      content: "My son has been begging to take karate for two years. He was diagnosed with ADD, hyperactive type with sensory issue components. This summer I decided to try the intro 6 week class. We had our first class and the staff was wonderful. After one week, I can already tell his confidence is growing. So far we love Seigler's!",
+      content:
+        "My son has been begging to take karate for two years. He was diagnosed with ADD, hyperactive type with sensory issue components. This summer I decided to try the intro 6 week class. We had our first class and the staff was wonderful. After one week, I can already tell his confidence is growing. So far we love Seigler's!",
       name: "Shanna Nelson Greene",
       position: "Parent",
-      avatar: "https://randomuser.me/api/portraits/women/1.jpg"
+      avatar: "https://randomuser.me/api/portraits/women/1.jpg",
+      program: "Kids Karate",
+      rating: 5,
     },
     {
       id: 2,
-      content: "Accountability and an awesome workout! I had the knowledge of how to loose weight and get fit, but like so many of us, I needed that push to get me started! Having a scheduled class time and training with athletes at the top of their game has motivated me to crush my goals.",
+      content:
+        "Accountability and an awesome workout! I had the knowledge of how to loose weight and get fit, but like so many of us, I needed that push to get me started! Having a scheduled class time and training with athletes at the top of their game has motivated me to crush my goals.",
       name: "Rachel Kimbrough-Eugene",
       position: "Member",
-      avatar: "https://randomuser.me/api/portraits/women/2.jpg"
+      avatar: "https://randomuser.me/api/portraits/women/2.jpg",
+      program: "Adult Kickboxing",
+      rating: 5,
     },
     {
       id: 3,
-      content: "Seigler's Karate Center is the BEST place to send your kids! A wonderful blend of Karate, leadership training and character building. Instructors know each child by name and are truly dedicated to their craft and the success of every child.",
+      content:
+        "Seigler's Karate Center is the BEST place to send your kids! A wonderful blend of Karate, leadership training and character building. Instructors know each child by name and are truly dedicated to their craft and the success of every child.",
       name: "Obambi A",
       position: "Parent",
-      avatar: "https://randomuser.me/api/portraits/men/1.jpg"
+      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
+      program: "Lil Dragons",
+      rating: 5,
+    },
+  ]
+
+  const nextTestimonial = () => {
+    if (!isAnimating) {
+      setActiveTestimonial((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1))
     }
-  ];
+  }
+
+  const prevTestimonial = () => {
+    if (!isAnimating) {
+      setActiveTestimonial((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1))
+    }
+  }
 
   return (
-    <section ref={sectionRef} id="feedback" className="relative py-20 text-white overflow-hidden">
-      {/* Subtle particles container */}
-      <div ref={particlesRef} className="absolute inset-0 pointer-events-none z-5"></div>
+    <section ref={sectionRef} id="feedback" className="relative py-24 text-white">
+      {/* Subtle background element */}
+      <div className="absolute top-1/4 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-red-500/5 rounded-full blur-3xl"></div>
 
-      <div className="container relative mx-auto px-4 z-20">
+      <div className="container mx-auto px-6 max-w-5xl">
         <div className="title-container mb-16 text-center">
-          <div className="inline-flex items-center space-x-2 mb-4">
-            <div className="h-px w-8 bg-red-500"></div>
-            <span className="text-red-400 uppercase tracking-wider text-sm font-semibold">Testimonials</span>
-            <div className="h-px w-8 bg-red-500"></div>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="h-px w-12 bg-red-500/50"></div>
+            <span className="text-red-500 uppercase tracking-wider text-sm font-medium">Testimonials</span>
+            <div className="h-px w-12 bg-red-500/50"></div>
           </div>
-          <h2 className="mb-4 text-4xl font-bold text-white md:text-5xl">What Our Members Say</h2>
-          <p className="mx-auto max-w-2xl text-gray-300 mt-4">
-            Hear from our community about their experiences and transformations at Seigler's Karate Center
-          </p>
-          <div className="mx-auto mt-6 h-1 w-20 bg-gradient-to-r from-red-600 to-red-400 rounded-full"></div>
+          <h2 className="mb-4 text-3xl font-bold text-white">
+            <span className="text-red-600">MEMBER</span> TESTIMONIALS
+          </h2>
         </div>
 
-        <div ref={cardsRef} className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <div
-              key={testimonial.id}
-              className="testimonial-card rounded-xl bg-black/60 p-6 shadow-xl transition-all duration-300 backdrop-blur-sm border border-red-900/20 hover:border-red-600/40 hover:shadow-red-900/5 group"
-            >
-              <div className="mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <svg
-                    key={i}
-                    className="mr-1 inline-block h-5 w-5 text-red-500 group-hover:text-yellow-400 transition-colors duration-300"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
+        <div className="testimonial-content relative">
+          {/* Quote decorative element */}
+          <div className="absolute -top-10 -left-10 opacity-5">
+            <Quote size={120} />
+          </div>
 
-              <p className="mb-6 text-gray-300">"{testimonial.content}"</p>
-
-              <div className="flex items-center">
-                <div className="mr-4 h-12 w-12 overflow-hidden rounded-full border-2 border-red-500 group-hover:border-red-400 transition-colors duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {/* Left side - Avatar and info */}
+            <div className="md:col-span-1 flex flex-col items-center md:items-start">
+              <div className="testimonial-avatar relative mb-6 transition-all duration-300 group">
+                <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-red-500 shadow-lg shadow-red-900/20 transition-transform duration-500 group-hover:scale-105">
                   <img
-                    src={testimonial.avatar || "/placeholder.svg"}
-                    alt={testimonial.name}
-                    className="h-full w-full object-cover"
+                    src={testimonials[activeTestimonial].avatar || "/placeholder.svg"}
+                    alt={testimonials[activeTestimonial].name}
+                    className="w-full h-full object-cover"
                   />
                 </div>
-                <div>
-                  <h4 className="font-semibold text-white">{testimonial.name}</h4>
-                  <p className="text-sm text-gray-400">{testimonial.position}</p>
+                <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-red-700 to-red-500 text-white text-xs px-3 py-1 rounded-full shadow-md">
+                  {testimonials[activeTestimonial].program}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
 
-        <div className="mt-16 text-center">
-          <button className="rounded-xl bg-gradient-to-r from-red-700 to-red-600 px-8 py-4 text-white hover:from-red-600 hover:to-red-500 transition-all duration-300 shadow-lg shadow-red-900/20 transform hover:scale-105 relative group overflow-hidden">
-            <span className="relative z-10 flex items-center justify-center">
-              See More Reviews
-              <svg className="w-5 h-5 ml-2 transform transition-transform duration-300 group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </span>
-          </button>
+              <div className="testimonial-info text-center md:text-left">
+                <h3 className="text-xl font-semibold text-white mb-1">{testimonials[activeTestimonial].name}</h3>
+                <p className="text-sm text-gray-400 mb-3">{testimonials[activeTestimonial].position}</p>
+
+                {/* Star rating */}
+                <div className="flex items-center mb-6 justify-center md:justify-start">
+                  {[...Array(testimonials[activeTestimonial].rating)].map((_, i) => (
+                    <Star key={i} size={16} className="text-yellow-500 fill-yellow-500 mr-1" />
+                  ))}
+                </div>
+              </div>
+
+              {/* Testimonial navigation */}
+              <div className="flex space-x-4 mt-auto">
+                <button
+                  onClick={prevTestimonial}
+                  disabled={isAnimating}
+                  className="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-red-900/20 hover:border-red-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-label="Previous testimonial"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  onClick={nextTestimonial}
+                  disabled={isAnimating}
+                  className="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center hover:bg-red-900/20 hover:border-red-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-label="Next testimonial"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+
+              {/* Pagination indicators */}
+              <div className="flex space-x-3 mt-6">
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => !isAnimating && setActiveTestimonial(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      activeTestimonial === index ? "bg-red-500 w-6" : "bg-gray-700 hover:bg-gray-600"
+                    }`}
+                    aria-label={`Go to testimonial ${index + 1}`}
+                    disabled={isAnimating}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Right side - Testimonial content */}
+            <div className="md:col-span-2 flex flex-col">
+              <div className="mb-4">
+                <Quote className="text-red-500 opacity-30" size={40} />
+              </div>
+
+              <div className="bg-black/30 backdrop-blur-sm rounded-lg p-8 border border-gray-800 hover:border-red-900/30 transition-colors duration-500 flex-grow relative overflow-hidden group">
+                {/* Subtle highlight effect on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-red-900/0 to-red-900/0 group-hover:from-red-900/5 group-hover:to-red-900/0 transition-all duration-700"></div>
+
+                <p className="testimonial-text text-gray-300 text-lg leading-relaxed relative z-10">
+                  {testimonials[activeTestimonial].content}
+                </p>
+              </div>
+
+              <div className="mt-8 flex justify-end">
+                <button className="text-sm text-red-500 hover:text-red-400 transition-colors flex items-center group">
+                  Read more testimonials
+                  <ChevronRight
+                    size={16}
+                    className="ml-1 transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Feedback;
+export default Feedback

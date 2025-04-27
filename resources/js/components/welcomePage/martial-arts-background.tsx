@@ -2,118 +2,176 @@
 
 import { useEffect, useRef, type ReactNode } from "react"
 import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-interface MartialArtsBackgroundProps {
+interface SciFiMartialArtsBackgroundProps {
   children: ReactNode
 }
 
-const MartialArtsBackground = ({ children }: MartialArtsBackgroundProps) => {
-  const particlesRef = useRef<HTMLDivElement>(null)
-  const decorativeElementsRef = useRef<HTMLDivElement>(null)
+const SciFiMartialArtsBackground = ({ children }: SciFiMartialArtsBackgroundProps) => {
+  const backgroundRef = useRef<HTMLDivElement>(null)
+  const gridRef = useRef<HTMLDivElement>(null)
+  const scanlineRef = useRef<HTMLDivElement>(null)
 
+  // Initialize subtle sci-fi grid
   useEffect(() => {
-    // Register GSAP plugins
-    if (typeof window !== "undefined") {
-      gsap.registerPlugin(ScrollTrigger)
+    if (!gridRef.current) return
+
+    // Create horizontal grid lines
+    for (let i = 0; i < 20; i++) {
+      const line = document.createElement("div")
+      line.className = "grid-line horizontal"
+      line.style.position = "absolute"
+      line.style.height = "1px"
+      line.style.left = "0"
+      line.style.right = "0"
+      line.style.top = `${i * 5}%`
+      line.style.background =
+        "linear-gradient(90deg, rgba(255,50,0,0) 0%, rgba(255,70,0,0.3) 50%, rgba(255,50,0,0) 100%)"
+      line.style.opacity = "0"
+
+      // Animate line
+      gsap.to(line, {
+        opacity: 0.25,
+        duration: 1,
+        delay: i * 0.1,
+        ease: "power1.inOut",
+      })
+
+      gridRef.current.appendChild(line)
     }
 
-    // Animate decorative elements
-    if (decorativeElementsRef.current) {
-      gsap.to(decorativeElementsRef.current.querySelectorAll(".floating-element"), {
-        y: -10,
-        duration: 4,
+    // Create vertical grid lines
+    for (let i = 0; i < 20; i++) {
+      const line = document.createElement("div")
+      line.className = "grid-line vertical"
+      line.style.position = "absolute"
+      line.style.width = "1px"
+      line.style.top = "0"
+      line.style.bottom = "0"
+      line.style.left = `${i * 5}%`
+      line.style.background =
+        "linear-gradient(0deg, rgba(255,50,0,0) 0%, rgba(255,70,0,0.3) 50%, rgba(255,50,0,0) 100%)"
+      line.style.opacity = "0"
+
+      // Animate line
+      gsap.to(line, {
+        opacity: 0.25,
+        duration: 1,
+        delay: i * 0.1,
+        ease: "power1.inOut",
+      })
+
+      gridRef.current.appendChild(line)
+    }
+
+    // Create a few accent points at grid intersections
+    for (let i = 0; i < 20; i++) {
+      const point = document.createElement("div")
+      point.className = "grid-point"
+
+      // Random position at a grid intersection
+      const x = Math.floor(Math.random() * 20) * 5
+      const y = Math.floor(Math.random() * 20) * 5
+
+      point.style.position = "absolute"
+      point.style.width = "4px"
+      point.style.height = "4px"
+      point.style.borderRadius = "50%"
+      point.style.backgroundColor = "rgba(255,100,0,0.5)"
+      point.style.left = `${x}%`
+      point.style.top = `${y}%`
+      point.style.transform = "translate(-50%, -50%)"
+      point.style.boxShadow = "0 0 8px rgba(255,100,0,0.7)"
+      point.style.opacity = "0"
+
+      // Animate point
+      gsap.to(point, {
+        opacity: 1,
+        duration: 2,
+        delay: Math.random() * 2,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-        stagger: 0.3,
       })
-    }
 
-    // Create subtle fire particles
-    if (particlesRef.current) {
-      const particles = particlesRef.current
-      // Subtle fire colors
-      const colors = ["#ff9500", "#ff6a00", "#ff4d00", "#ff8800"]
-      const particleInterval = setInterval(() => {
-        const particle = document.createElement("div")
-        const size = Math.random() * 4 + 1 // Smaller particles
-        const color = colors[Math.floor(Math.random() * colors.length)]
-
-        particle.style.position = "absolute"
-        particle.style.width = `${size}px`
-        particle.style.height = `${size}px`
-        particle.style.borderRadius = "50%"
-        particle.style.backgroundColor = color
-        particle.style.opacity = (0.2 + Math.random() * 0.2).toString() // Lower opacity
-        particle.style.left = `${Math.random() * 100}%`
-        particle.style.bottom = "0"
-
-        particles.appendChild(particle)
-
-        // Gentle upward movement
-        gsap.to(particle, {
-          x: Math.random() * 30 - 15, // Less horizontal movement
-          y: -(Math.random() * 100 + 50), // Less height
-          opacity: 0,
-          duration: 3 + Math.random() * 2,
-          ease: "power1.out",
-          onComplete: () => {
-            if (particles.contains(particle)) {
-              particles.removeChild(particle)
-            }
-          }
-        })
-      }, 300) // Less frequent particles
-
-      return () => {
-        if (particleInterval) clearInterval(particleInterval)
-      }
+      gridRef.current.appendChild(point)
     }
   }, [])
 
+  // Initialize scanline effect
+  useEffect(() => {
+    if (!scanlineRef.current) return
+
+    const scanline = document.createElement("div")
+    scanline.style.position = "absolute"
+    scanline.style.left = "0"
+    scanline.style.right = "0"
+    scanline.style.height = "100px"
+    scanline.style.background =
+      "linear-gradient(to bottom, rgba(255,50,0,0) 0%, rgba(255,50,0,0.03) 50%, rgba(255,50,0,0) 100%)"
+    scanline.style.opacity = "0.5"
+    scanline.style.zIndex = "1"
+
+    scanlineRef.current.appendChild(scanline)
+
+    // Animate scanline
+    gsap.to(scanline, {
+      top: "100%",
+      duration: 8,
+      repeat: -1,
+      ease: "none",
+      onStart: () => {
+        scanline.style.top = "-100px"
+      },
+    })
+  }, [])
+
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* Dark background base */}
-      <div className="fixed inset-0 bg-black z-0"></div>
-
-      {/* Subtle gradient overlay */}
-      <div className="fixed inset-0 bg-gradient-to-t from-red-900/40 via-black/95 to-black z-0"></div>
-
-      {/* Very subtle side gradients */}
-      <div className="fixed left-0 bottom-0 w-1/3 h-full bg-gradient-to-r from-red-800/10 to-transparent z-0"></div>
-      <div className="fixed right-0 bottom-0 w-1/3 h-full bg-gradient-to-l from-red-800/10 to-transparent z-0"></div>
-
-      {/* Gentle glow at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 h-1/4 bg-gradient-to-t from-red-700/15 to-transparent z-1"></div>
-
-      {/* Japanese-inspired pattern overlay */}
-      <div className="fixed inset-0 opacity-3 mix-blend-overlay z-0"></div>
-
-      {/* Subtle particles container */}
-      <div ref={particlesRef} className="fixed inset-0 pointer-events-none z-5"></div>
-
-      {/* Decorative elements - more subtle */}
-      <div ref={decorativeElementsRef} className="fixed inset-0 pointer-events-none z-2">
-        <div className="absolute bottom-1/4 right-1/4 w-40 h-40 floating-element bg-red-600/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/3 left-1/4 w-32 h-32 floating-element bg-orange-500/5 rounded-full blur-2xl"></div>
-        <div className="absolute right-1/3 top-1/2 w-24 h-24 floating-element bg-red-500/5 rounded-full blur-xl"></div>
-      </div>
-
-      {/* Martial arts silhouette elements - more subtle */}
+    <div ref={backgroundRef} className="relative min-h-screen overflow-hidden">
+      {/* Enhanced gradient background with fiery tones */}
       <div
-        className="fixed bottom-0 right-0 w-64 h-64 bg-contain bg-no-repeat bg-right-bottom z-1 opacity-10"
-        style={{ backgroundImage: "url('/karate-silhouette-1.png')" }}
+        className="fixed inset-0 z-0"
+        style={{
+          background: "linear-gradient(135deg, #0a0a0a 0%, #150505 50%, #1a0505 100%)",
+        }}
       ></div>
+
+      {/* Subtle warm radial gradient */}
       <div
-        className="fixed top-0 left-0 w-48 h-48 bg-contain bg-no-repeat bg-left-top z-1 opacity-10"
-        style={{ backgroundImage: "url('/karate-silhouette-2.png')" }}
+        className="fixed inset-0 z-1 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle at bottom, rgba(255,50,0,0.15) 0%, rgba(255,30,0,0.05) 30%, transparent 70%)",
+        }}
+      ></div>
+
+      {/* Subtle grid overlay */}
+      <div ref={gridRef} className="fixed inset-0 z-1 pointer-events-none"></div>
+
+      {/* Scanline effect container */}
+      <div ref={scanlineRef} className="fixed inset-0 z-2 pointer-events-none overflow-hidden"></div>
+
+      {/* Very subtle noise texture */}
+      <div
+        className="fixed inset-0 z-2 opacity-[0.03] pointer-events-none mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
+        }}
+      ></div>
+
+      {/* Subtle vignette */}
+      <div
+        className="fixed inset-0 z-2 pointer-events-none"
+        style={{
+          background: "radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%)",
+        }}
       ></div>
 
       {/* Content */}
-      <div className="relative z-20">{children}</div>
+      <div className="relative z-10">{children}</div>
     </div>
   )
 }
 
-export default MartialArtsBackground
+export default SciFiMartialArtsBackground

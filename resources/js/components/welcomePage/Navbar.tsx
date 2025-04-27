@@ -127,6 +127,10 @@ const Navbar = () => {
   useEffect(() => {
     const style = document.createElement("style")
     style.innerHTML = `
+  :root {
+    --navbar-height: 4rem; /* 64px - matches the h-16 class */
+  }
+  
       /* Common dropdown styles */
       .nav-dropdown {
         position: relative;
@@ -256,6 +260,41 @@ const Navbar = () => {
       .nested-dropdown:hover .nested-arrow {
         transform: translateY(-50%) rotate(-90deg);
       }
+
+      /* Sci-fi theme additions */
+      .nav-item-glow:hover {
+        text-shadow: 0 0 8px rgba(220, 38, 38, 0.7);
+      }
+      
+      .sci-fi-border {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .sci-fi-border::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(to right, transparent, #dc2626, transparent);
+        animation: scanline 3s linear infinite;
+      }
+      
+      @keyframes scanline {
+        0% {
+          left: -100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
+      
+      .tech-text {
+        font-family: monospace;
+        letter-spacing: 0.5px;
+      }
     `
     document.head.appendChild(style)
 
@@ -298,12 +337,21 @@ const Navbar = () => {
                 </AnimatedElement>
               </div>
             </div>
+
+            {/* System status indicator - sci-fi element */}
+            <div className="hidden md:flex items-center mr-6">
+              <div className="flex items-center border border-red-900/20 px-3 py-1 rounded bg-black/30 sci-fi-border">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                <span className="text-xs text-gray-300 uppercase tech-text">SYSTEM ONLINE</span>
+              </div>
+            </div>
+
             <div className="hidden md:block">
               <div className="ml-10 flex items-center space-x-6">
                 <AnimatedElement as="div" type="fadeInDown" delay={0.2} scrollTrigger={false}>
                   <Link
                     href="/"
-                    className="nav-link rounded-md px-3 py-2 text-sm font-medium text-white hover:text-red-400 transition-colors"
+                    className="nav-link nav-item-glow rounded-md px-3 py-2 text-sm font-medium text-white hover:text-red-400 transition-colors"
                   >
                     Home
                   </Link>
@@ -314,7 +362,7 @@ const Navbar = () => {
                   <div className="nav-dropdown">
                     <Link
                       href="/about"
-                      className="nav-link rounded-md px-3 py-2 text-sm font-medium text-white hover:text-red-400 transition-colors flex items-center"
+                      className="nav-link nav-item-glow rounded-md px-3 py-2 text-sm font-medium text-white hover:text-red-400 transition-colors flex items-center"
                     >
                       About Us
                       <svg
@@ -365,7 +413,7 @@ const Navbar = () => {
                   <div className="nav-dropdown">
                     <Link
                       href="/programs"
-                      className="nav-link rounded-md px-3 py-2 text-sm font-medium text-white hover:text-red-400 transition-colors flex items-center"
+                      className="nav-link nav-item-glow rounded-md px-3 py-2 text-sm font-medium text-white hover:text-red-400 transition-colors flex items-center"
                     >
                       Programs
                       <svg
@@ -406,7 +454,7 @@ const Navbar = () => {
                   <div className="nav-dropdown">
                     <Link
                       href="/success-stories"
-                      className="nav-link rounded-md px-3 py-2 text-sm font-medium text-white hover:text-red-400 transition-colors flex items-center"
+                      className="nav-link nav-item-glow rounded-md px-3 py-2 text-sm font-medium text-white hover:text-red-400 transition-colors flex items-center"
                     >
                       Success Stories
                       <svg
@@ -433,7 +481,7 @@ const Navbar = () => {
                 <AnimatedElement as="div" type="fadeInDown" delay={0.6} scrollTrigger={false}>
                   <Link
                     href="/franchise"
-                    className="nav-link rounded-md px-3 py-2 text-sm font-medium text-white hover:text-red-400 transition-colors"
+                    className="nav-link nav-item-glow rounded-md px-3 py-2 text-sm font-medium text-white hover:text-red-400 transition-colors"
                   >
                     Franchise Info
                   </Link>
@@ -498,6 +546,14 @@ const Navbar = () => {
       {/* Mobile menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-black/95 backdrop-blur-md border-b border-red-900/20 shadow-lg">
+          {/* Mobile system status */}
+          <div className="px-4 pt-3 flex items-center">
+            <div className="flex items-center border border-red-900/20 px-3 py-1 rounded bg-black/30 sci-fi-border w-full justify-center">
+              <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+              <span className="text-xs text-gray-300 uppercase tech-text">SYSTEM ONLINE</span>
+            </div>
+          </div>
+
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
               href="/"
