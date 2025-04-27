@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -59,6 +61,13 @@ const Services = () => {
       )
     }
   }, [activeTab])
+
+  // Function to handle navigation
+  const navigateToPrograms = (e: React.MouseEvent) => {
+    e.preventDefault()
+    // Try different possible routes
+    window.location.href = "/programs" // Try without the -index
+  }
 
   const services = [
     {
@@ -314,9 +323,13 @@ const Services = () => {
                 </ul>
               </div>
 
-              <button className="self-start mt-auto rounded-md bg-red-600 hover:bg-red-700 px-6 py-3 text-white text-sm font-medium transition-all duration-300">
+              <a
+                href="#"
+                onClick={navigateToPrograms}
+                className="self-start mt-auto rounded-md bg-red-600 hover:bg-red-700 px-6 py-3 text-white text-sm font-medium transition-all duration-300 cursor-pointer"
+              >
                 Learn More
-              </button>
+              </a>
             </div>
           </div>
         </div>

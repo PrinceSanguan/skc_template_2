@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, ChevronDown } from "lucide-react"
+import { Link } from "@inertiajs/react"
 import gsap from "gsap"
 
 const MinimalistHero = () => {
@@ -162,15 +163,19 @@ const MinimalistHero = () => {
                 Discover the path to physical mastery and mental discipline through expert martial arts training.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button className="bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white shadow-[0_4px_10px_rgba(220,38,38,0.3)] hover:shadow-[0_6px_15px_rgba(220,38,38,0.4)] transition-all duration-300">
-                  Start Training
-                </Button>
-                <Button
-                  variant="outline"
-                  className="border-red-900/20 hover:bg-red-900/20 hover:text-red-400 transition-all duration-300"
-                >
-                  Explore Programs
-                </Button>
+                <Link href="/programs" className="inline-block">
+                  <Button className="bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white shadow-[0_4px_10px_rgba(220,38,38,0.3)] hover:shadow-[0_6px_15px_rgba(220,38,38,0.4)] transition-all duration-300">
+                    Start Training
+                  </Button>
+                </Link>
+                <Link href="/programs" className="inline-block">
+                  <Button
+                    variant="outline"
+                    className="border-red-900/20 hover:bg-red-900/20 text-black hover:text-red-400 transition-all duration-300"
+                  >
+                    Explore Programs
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -216,13 +221,15 @@ const MinimalistHero = () => {
             <div className="text-xs text-gray-400 mb-3">NEXT CLASS</div>
             <div className="text-sm">ADULT KEMPO</div>
             <div className="text-xs text-gray-400">TODAY • 18:00</div>
-            <Button
-              variant="link"
-              className="text-xs text-red-400 hover:text-red-300 p-0 mt-2 h-auto flex items-center"
-            >
-              <span>VIEW SCHEDULE</span>
-              <ArrowRight className="ml-2 h-3 w-3" />
-            </Button>
+            <Link href="/schedule" className="inline-block">
+              <Button
+                variant="link"
+                className="text-xs text-red-400 hover:text-red-300 p-0 mt-2 h-auto flex items-center"
+              >
+                <span>VIEW SCHEDULE</span>
+                <ArrowRight className="ml-2 h-3 w-3" />
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

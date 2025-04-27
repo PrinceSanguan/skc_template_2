@@ -1,10 +1,10 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Button } from "@/components/ui/button"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { MapPin, Phone, Clock, CheckCircle, ChevronRight, Mail, ArrowRight } from "lucide-react"
+import { Link } from "@inertiajs/react"
 
 const Location = () => {
   const sectionRef = useRef<HTMLElement>(null)
@@ -101,7 +101,7 @@ const Location = () => {
         "Adult martial arts classes",
       ],
       mapUrl: "https://maps.google.com/?q=4150+Washington+Road+Evans+GA",
-      image: "/serene-dojo.png",
+      image: "/Images/team/ga388endgrovetown.webp",
     },
     {
       id: 2,
@@ -114,7 +114,7 @@ const Location = () => {
       hours: "Mon-Fri: 4pm-8pm, Sat: 9am-12pm",
       features: ["Modern training facility", "Family classes", "After-school programs", "Advanced belt training"],
       mapUrl: "https://maps.google.com/?q=271+Meridian+Drive+Grovetown+GA",
-      image: "/traditional-karate-dojo.png",
+      image: "/Images/team/adobestock-469148590.jpg",
     },
     {
       id: 3,
@@ -127,7 +127,7 @@ const Location = () => {
       hours: "Opening Fall 2023",
       features: ["Pre-registration available", "Grand opening specials", "All ages welcome", "New student orientation"],
       mapUrl: "https://maps.google.com/?q=Augusta+GA",
-      image: "/rising-dragon-dojo.png",
+      image: "/Images/team/Augusta-Riverwalk-Best-Things-to-do-in-Augusta.jpg",
     },
   ]
 
@@ -251,22 +251,25 @@ const Location = () => {
 
                 {/* Action buttons */}
                 <div className="pt-4 space-y-3">
-                  <Button className="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white shadow-md">
+                  <Link
+                    href="/contact"
+                    className="w-full inline-flex items-center justify-center bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white py-2 px-4 rounded-md shadow-md"
+                  >
                     <span className="flex items-center">
                       Schedule a Tour
                       <ArrowRight size={16} className="ml-2" />
                     </span>
-                  </Button>
+                  </Link>
 
-                  <Button
-                    variant="outline"
-                    className="w-full border-red-900/30 text-red-500 hover:bg-red-900/20 hover:border-red-500/50 hover:text-red-400"
+                  <Link
+                    href="/contact"
+                    className="w-full inline-flex items-center justify-center border border-red-900/30 bg-transparent rounded-md py-2 px-4 text-red-500 hover:bg-red-900/20 hover:border-red-500/50 hover:text-red-400"
                   >
                     <span className="flex items-center">
                       <MapPin size={16} className="mr-2" />
                       Get Directions
                     </span>
-                  </Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -286,16 +289,16 @@ const Location = () => {
             happy to assist you.
           </p>
 
-          <Button
-            variant="outline"
-            className="rounded-lg border-red-600/30 px-8 py-3 text-red-400 hover:bg-red-900/20 hover:border-red-500/50 hover:text-red-300 transition-all duration-300 shadow-lg shadow-red-900/10 group"
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center rounded-lg border border-red-600/30 px-8 py-3 text-red-400 hover:bg-red-900/20 hover:border-red-500/50 hover:text-red-300 transition-all duration-300 shadow-lg shadow-red-900/10 group"
           >
             <span className="flex items-center">
               <Mail className="mr-2" size={18} />
               Email Us at skc@goskc.com
               <ChevronRight size={16} className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
-          </Button>
+          </Link>
         </div>
       </div>
     </section>

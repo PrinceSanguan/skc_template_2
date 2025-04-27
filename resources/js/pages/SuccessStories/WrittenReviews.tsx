@@ -54,7 +54,7 @@ export default function WrittenReviews() {
     e.currentTarget.src = defaultProfilePicture
   }
 
-  // Written reviews data
+  // Written reviews data with added images
   const reviews = [
     {
       id: 1,
@@ -67,6 +67,9 @@ export default function WrittenReviews() {
         "When I started at Seigler's, I was shy and struggled with confidence. The instructors believed in me when I didn't believe in myself. Now I'm a black belt and assistant instructor, helping others find their strength.",
       rating: 5,
       date: "2023-05-15",
+      image: "/images/reviews/michael-chen.jpg", // Add image path here
+      programImage: "/Images/team/TN-Teen-Karate.jpg", // Program-related image
+      achievementImage: "/images/achievements/black-belt.jpg", // Achievement-related image
     },
     {
       id: 2,
@@ -80,6 +83,9 @@ export default function WrittenReviews() {
       parent: "Jennifer Williams, Sophia's mother",
       rating: 5,
       date: "2023-07-22",
+      image: "/images/reviews/sophia-williams.jpg",
+      programImage: "/Images/team/TN-Kids-Karate.jpg",
+      achievementImage: "/images/achievements/focus-confidence.jpg",
     },
     {
       id: 3,
@@ -92,6 +98,9 @@ export default function WrittenReviews() {
         "I joined Seigler's at 42 years old, thinking I was too old to start martial arts. Two years later, I'm in the best shape of my life and have skills I never thought possible. The instructors make everyone feel welcome regardless of age or fitness level.",
       rating: 5,
       date: "2023-03-10",
+      image: "/images/reviews/david-johnson.jpg",
+      programImage: "/Images/team/ADULTKEMPO.jpg",
+      achievementImage: "/images/achievements/physical-transformation.jpg",
     },
     {
       id: 4,
@@ -104,6 +113,9 @@ export default function WrittenReviews() {
         "I've won three regional tournaments this year alone! The training at Seigler's is intense but always fun. My coaches know exactly how to push me to be my best while keeping my technique perfect. I've made so many friends here too.",
       rating: 5,
       date: "2023-08-05",
+      image: "/images/reviews/emma-rodriguez.jpg",
+      programImage: "/Images/team/TN-Teen-Karate.jpg",
+      achievementImage: "/images/achievements/tournament-trophy.jpg",
     },
     {
       id: 5,
@@ -116,6 +128,9 @@ export default function WrittenReviews() {
         "I've lost 35 pounds since joining the kickboxing program. The instructors push you to your limits but are incredibly supportive. The community here is what keeps me coming back, and I've never felt stronger or healthier in my life.",
       rating: 4,
       date: "2023-09-18",
+      image: "/images/reviews/robert-smith.jpg",
+      programImage: "/Images/team/88A5D580-B43D-4916-92F9-2B8037264B27-rotated-e1724873881945.jpg",
+      achievementImage: "/images/achievements/weight-loss.jpg",
     },
     {
       id: 6,
@@ -129,6 +144,9 @@ export default function WrittenReviews() {
       parent: "Thomas Parker, Olivia's father",
       rating: 5,
       date: "2023-06-30",
+      image: "/images/reviews/olivia-parker.jpg",
+      programImage: "/Images/team/TN-Kids-Karate.jpg",
+      achievementImage: "/images/achievements/discipline.jpg",
     },
     {
       id: 7,
@@ -141,6 +159,9 @@ export default function WrittenReviews() {
         "My job in tech is incredibly stressful, and Kempo has become my sanctuary. The combination of physical exertion and mental focus has done wonders for my anxiety levels. The instructors create such a positive atmosphere.",
       rating: 5,
       date: "2023-04-12",
+      image: "/images/reviews/james-wilson.jpg",
+      programImage: "/Images/team/ADULTKEMPO.jpg",
+      achievementImage: "/images/achievements/stress-relief.jpg",
     },
   ]
 
@@ -252,7 +273,11 @@ export default function WrittenReviews() {
         <div className="relative h-64 md:h-80 overflow-hidden mb-12 bg-gradient-to-r from-black to-red-900">
           {imagesLoaded && (
             <div className="absolute inset-0 opacity-20">
-              <img src="/placeholder.svg?key=hm4l7" alt="Students in dojo" className="w-full h-full object-cover" />
+              <img
+                src="/images/hero/success-stories-hero.jpg"
+                alt="Students in dojo"
+                className="w-full h-full object-cover"
+              />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
@@ -360,12 +385,19 @@ export default function WrittenReviews() {
                   <button
                     key={program}
                     onClick={() => setActiveFilter(program)}
-                    className={`px-3 py-1 text-xs rounded-full transition-all duration-300 ${
+                    className={`px-3 py-1 text-xs rounded-full flex items-center gap-1 transition-all duration-300 ${
                       activeFilter === program
                         ? "bg-red-700 text-white"
                         : "bg-black/40 text-gray-300 hover:bg-black/60 border border-red-900/30"
                     }`}
                   >
+                    {/* Program icon */}
+                    <img
+                      src={`/images/program-icons/${program.toLowerCase().replace(/\s+/g, "-")}.png`}
+                      alt=""
+                      className="w-3 h-3 object-contain"
+                      onError={(e) => (e.currentTarget.style.display = "none")}
+                    />
                     {program}
                   </button>
                 ))}
@@ -398,8 +430,12 @@ export default function WrittenReviews() {
                     <div className="md:w-1/4 mb-4 md:mb-0">
                       {imagesLoaded && (
                         <div className="relative w-24 h-24 md:w-32 md:h-32 mx-auto md:mx-0 rounded-full overflow-hidden border-2 border-red-600/30 shadow-lg">
+                          {/* Use the actual student image if available */}
                           <img
-                            src={`/placeholder.svg?key=w3v7y&key=vcvm3&key=rx1o1&key=uwxjv&height=200&width=200&query=martial arts student portrait ${reviews[selectedReview].name}`}
+                            src={
+                              reviews[selectedReview].image ||
+                              `/placeholder.svg?height=200&width=200&query=martial arts student portrait ${reviews[selectedReview].name}`
+                            }
                             alt={reviews[selectedReview].name}
                             className="w-full h-full object-cover"
                             onError={handleImageError}
@@ -449,6 +485,18 @@ export default function WrittenReviews() {
                           )}
                         </div>
                       </div>
+
+                      {/* Achievement image */}
+                      {reviews[selectedReview].achievementImage && (
+                        <div className="mt-4 rounded-lg overflow-hidden border border-red-900/20">
+                          <img
+                            src={reviews[selectedReview].achievementImage || "/placeholder.svg"}
+                            alt={`${reviews[selectedReview].name}'s ${reviews[selectedReview].achievement}`}
+                            className="w-full h-48 object-cover"
+                            onError={(e) => (e.currentTarget.style.display = "none")}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -468,12 +516,18 @@ export default function WrittenReviews() {
                     className="review-card group bg-gradient-to-br from-black to-red-950/30 rounded-lg overflow-hidden border border-red-900/20 shadow-lg transition-all duration-300 hover:shadow-xl hover:border-red-600/30 hover:-translate-y-1 cursor-pointer"
                     onClick={() => setSelectedReview(reviews.findIndex((r) => r.id === review.id))}
                   >
-                    <div className="h-32 relative overflow-hidden">
+                    <div className="h-48 relative overflow-hidden">
                       {imagesLoaded && (
                         <img
-                          src={`/focused-sparring.png?key=p1613&height=300&width=500&query=martial arts training ${review.program}`}
+                          src={
+                            review.programImage ||
+                            `/focused-sparring.png?height=300&width=500&query=martial arts training ${review.program}`
+                          }
                           alt={review.program}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          onError={(e) => {
+                            e.currentTarget.src = `/placeholder.svg?height=300&width=500&query=martial arts training ${review.program}`
+                          }}
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
@@ -490,9 +544,23 @@ export default function WrittenReviews() {
 
                     <div className="p-4">
                       <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-lg font-bold text-white group-hover:text-red-400 transition-colors">
-                          {review.name}
-                        </h3>
+                        <div className="flex items-center">
+                          {/* Student thumbnail */}
+                          <div className="w-10 h-10 rounded-full overflow-hidden border border-red-600/30 mr-3">
+                            <img
+                              src={
+                                review.image ||
+                                `/placeholder.svg?height=100&width=100&query=martial arts student portrait ${review.name}`
+                              }
+                              alt={review.name}
+                              className="w-full h-full object-cover"
+                              onError={handleImageError}
+                            />
+                          </div>
+                          <h3 className="text-lg font-bold text-white group-hover:text-red-400 transition-colors">
+                            {review.name}
+                          </h3>
+                        </div>
                         {renderStarRating(review.rating)}
                       </div>
 
@@ -508,7 +576,23 @@ export default function WrittenReviews() {
                       </p>
 
                       <div className="flex items-center justify-between">
-                        <div className="bg-red-900/30 text-white text-xs px-2 py-1 rounded-full">
+                        <div className="bg-red-900/30 text-white text-xs px-2 py-1 rounded-full flex items-center">
+                          {/* Achievement icon */}
+                          <img
+                            src={`/images/achievement-icons/${review.achievement.toLowerCase().replace(/\s+/g, "-")}.png`}
+                            alt=""
+                            className="w-3 h-3 mr-1"
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none"
+                              const parent = e.currentTarget.parentElement
+                              if (parent) {
+                                const award = document.createElement("span")
+                                award.innerHTML =
+                                  '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>'
+                                parent.prepend(award)
+                              }
+                            }}
+                          />
                           {review.achievement}
                         </div>
                         <div className="text-red-500 text-xs flex items-center group-hover:text-red-400 transition-colors">
@@ -539,12 +623,102 @@ export default function WrittenReviews() {
           </AnimatedElement>
         </div>
 
-        {/* CTA section */}
+        {/* Photo gallery section */}
         <div className="container mx-auto px-4 mb-16">
           <AnimatedElement type="fadeIn" delay={0.8}>
+            <h2 className="text-2xl font-bold text-white mb-6 text-center flex items-center justify-center">
+              <div className="h-px w-12 bg-red-600/40 mr-4"></div>
+              Student Achievement Gallery
+              <div className="h-px w-12 bg-red-600/40 ml-4"></div>
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { src: "/Images/team/ADULTKEMPO.jpg", caption: "Belt Promotion Ceremony" },
+                { src: "/Images/team/88A5D580-B43D-4916-92F9-2B8037264B27-rotated-e1724873881945.jpg", caption: "Tournament Champions" },
+                { src: "/Images/team/Copy-of-IMG_9985-1-scaled-1.jpg", caption: "Sparring Practice" },
+                { src: "/Images/team/Copy-of-IMG_8865-2-scaled-1-1024x683.jpg", caption: "Kata Performance" },
+                { src: "/Images/team/Copy-of-IMG_8689-scaled-1-1024x683.jpg", caption: "Competition Team" },
+                { src: "/Images/team/Copy-of-IMG_8401-1-scaled-1-1024x683.jpg", caption: "Kids Class" },
+                { src: "/Images/team/Copy-of-IMG_4234-1-scaled-1-qsnf4513mjib1m3ko4ynegoi43xkrxf6rknbliz9o8.jpg", caption: "Adult Training" },
+                { src: "/Images/team/Copy-of-IMG_3750-1-scaled-1-qsnf3wkjx16q54fv1jb0a0tcrn39unhlqerya1bt88.jpg", caption: "Black Belt Ceremony" },
+              ].map((img, idx) => (
+                <div
+                  key={idx}
+                  className="aspect-square overflow-hidden rounded-lg border border-red-900/30 group relative"
+                >
+                  <img
+                    src={img.src || "/placeholder.svg"}
+                    alt={img.caption}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    onError={(e) => {
+                      e.currentTarget.src = `/placeholder.svg?height=300&width=300&query=martial arts ${img.caption}`
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                    <p className="text-white text-sm p-3">{img.caption}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </AnimatedElement>
+        </div>
+
+        {/* Instructor spotlight section */}
+        <div className="container mx-auto px-4 mb-16">
+          <AnimatedElement type="fadeIn" delay={0.9}>
+            <div className="bg-black/40 backdrop-blur-sm border border-red-900/20 rounded-lg overflow-hidden">
+              <div className="md:flex">
+                <div className="md:w-1/3">
+                  <img
+                    src="/images/instructors/master-instructor.jpg"
+                    alt="Master Instructor"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = `/placeholder.svg?height=400&width=300&query=martial arts master instructor`
+                    }}
+                  />
+                </div>
+                <div className="p-6 md:w-2/3">
+                  <h3 className="text-xl font-bold text-white mb-2">A Message From Our Master Instructor</h3>
+                  <div className="w-16 h-0.5 bg-red-600/40 mb-4"></div>
+                  <p className="text-gray-300 mb-4">
+                    "At Seigler's Karate Center, we believe in the transformative power of martial arts. Every student's
+                    journey is unique, and we're proud to be part of their growth. The stories you see on this page
+                    represent just a small sample of the incredible transformations we witness every day in our dojo.
+                    Whether you're seeking physical fitness, mental discipline, or a supportive community, our doors are
+                    open to you."
+                  </p>
+                  <Link
+                    href="/about/team"
+                    className="text-red-500 hover:text-red-400 transition-colors text-sm flex items-center"
+                  >
+                    Meet Our Instructors
+                    <ChevronRight className="ml-1 w-3 h-3" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </AnimatedElement>
+        </div>
+
+        {/* CTA section */}
+        <div className="container mx-auto px-4 mb-16">
+          <AnimatedElement type="fadeIn" delay={1.0}>
             <div className="relative rounded-xl overflow-hidden">
-              {/* Background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-red-900 to-black z-0"></div>
+              {/* Background with image */}
+              <div className="absolute inset-0 z-0">
+                <img
+                  src="/images/cta/success-journey.jpg"
+                  alt=""
+                  className="w-full h-full object-cover opacity-20"
+                  onError={(e) => {
+                    const target = e.currentTarget
+                    target.style.display = "none"
+                    target.parentElement!.classList.add("bg-gradient-to-r", "from-red-900", "to-black")
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-red-900/80 to-black/80 z-0"></div>
+              </div>
 
               {/* Decorative elements */}
               <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">

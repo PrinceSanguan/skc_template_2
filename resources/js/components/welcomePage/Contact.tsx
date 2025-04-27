@@ -136,7 +136,7 @@ const Contact = () => {
       phone: "(706) 855-5685",
       hours: "Mon-Fri: 4pm-8pm, Sat: 9am-12pm",
       mapUrl: "https://maps.google.com/?q=4150+Washington+Road+Evans+GA",
-      image: "/evans-ga.png",
+      image: "/Images/team/ga388endgrovetown.webp",
     },
     {
       id: "grovetown",
@@ -146,7 +146,7 @@ const Contact = () => {
       phone: "(706) 855-5685",
       hours: "Mon-Fri: 4pm-8pm, Sat: 9am-12pm",
       mapUrl: "https://maps.google.com/?q=271+Meridian+Drive+Grovetown+GA",
-      image: "/grovetown-ga.png",
+      image: "/Images/team/adobestock-469148590.jpg",
     },
   ]
 

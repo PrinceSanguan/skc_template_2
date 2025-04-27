@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Award, MapPin, Users, Clock } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Link } from "@inertiajs/react"
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null)
@@ -112,12 +112,12 @@ const About = () => {
               </div>
 
               <div className="animate-in pt-4">
-                <Button
-                  variant="default"
-                  className="bg-red-600 hover:bg-red-700 px-6 py-2 text-white text-sm font-medium rounded-md"
+                <Link
+                  href="/about"
+                  className="inline-block bg-red-600 hover:bg-red-700 px-6 py-2 text-white text-sm font-medium rounded-md transition-colors"
                 >
                   Learn More
-                </Button>
+                </Link>
               </div>
             </div>
           </div>

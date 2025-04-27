@@ -1,7 +1,8 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect, useRef } from "react"
-import { Button } from "@/components/ui/button"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Calendar, User, Clock, ArrowRight, ChevronRight, Search, ChevronLeft } from "lucide-react"
@@ -66,7 +67,7 @@ const Blog = () => {
         "Discover how martial arts training can help children develop discipline, confidence, and physical fitness. Our youth programs are designed to instill important life skills while providing a fun and engaging environment for learning.",
       date: "June 15, 2023",
       author: "Sensei Michael",
-      image: "/blog-children-martial-arts.png",
+      image: "/Images/team/TN-Lil-Dragons.jpg",
       category: "Youth Programs",
       readTime: "5 min read",
       featured: true,
@@ -78,7 +79,7 @@ const Blog = () => {
         "A comprehensive comparison of two popular martial arts styles and their unique approaches to self-defense. Learn about the history, techniques, and philosophy behind these distinct martial arts traditions.",
       date: "May 28, 2023",
       author: "Master Chen",
-      image: "/blog-karate-vs-taekwondo.png",
+      image: "/Images/team/Copy-of-IMG_3535-1-scaled-1-683x1024.jpg",
       category: "Martial Arts Styles",
       readTime: "7 min read",
       featured: true,
@@ -90,7 +91,7 @@ const Blog = () => {
         "Essential tips and mental preparation strategies to help you succeed in your upcoming belt examination. Learn how to manage test anxiety and showcase your skills with confidence.",
       date: "April 12, 2023",
       author: "Sensei Sarah",
-      image: "/blog-belt-test.png",
+      image: "/Images/team/TN-Kids-Karate.jpg",
       category: "Student Guidance",
       readTime: "4 min read",
       featured: true,
@@ -102,7 +103,7 @@ const Blog = () => {
         "Learn practical self-defense moves that can help you stay safe in potentially dangerous situations. These techniques are simple to learn but effective in real-world scenarios.",
       date: "March 5, 2023",
       author: "Sensei David",
-      image: "/blog-self-defense.png",
+      image: "/Images/team/TN-Teen-Karate.jpg",
       category: "Self Defense",
       readTime: "6 min read",
       featured: false,
@@ -114,7 +115,7 @@ const Blog = () => {
         "Explore how martial arts training provides a complete fitness regimen that builds strength, flexibility, and cardiovascular health while teaching valuable skills.",
       date: "February 18, 2023",
       author: "Coach Amanda",
-      image: "/blog-martial-arts-fitness.png",
+      image: "/Images/team/Copy-of-IMG_8865-2-scaled-1-1024x683.jpg",
       category: "Fitness",
       readTime: "5 min read",
       featured: false,
@@ -126,7 +127,7 @@ const Blog = () => {
         "Dive into the rich history of Karate, from its origins in Okinawa to its global popularity today. Understand how this martial art has evolved while maintaining its core principles.",
       date: "January 30, 2023",
       author: "Sensei Tanaka",
-      image: "/blog-karate-history.png",
+      image: "/Images/team/Copy-of-IMG_3750-1-scaled-1-qsnf3wkjx16q54fv1jb0a0tcrn39unhlqerya1bt88.jpg",
       category: "Martial Arts Styles",
       readTime: "8 min read",
       featured: false,
@@ -150,6 +151,12 @@ const Blog = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1)
     }
+  }
+
+  // Function to handle navigation with direct browser navigation
+  const navigateToBlog = (e: React.MouseEvent) => {
+    e.preventDefault()
+    window.location.href = "/about/blog"
   }
 
   return (
@@ -187,20 +194,23 @@ const Blog = () => {
 
           <div className="flex flex-wrap gap-2 justify-center md:justify-end">
             {categories.map((category) => (
-              <button
+              <a
+                href="#"
                 key={category}
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault()
                   setActiveCategory(category)
                   setCurrentPage(0)
+                  navigateToBlog(e)
                 }}
-                className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 ${
+                className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 cursor-pointer ${
                   activeCategory === category
                     ? "bg-red-600 text-white"
                     : "bg-black/30 border border-gray-800 text-gray-300 hover:border-red-500/30 hover:text-white"
                 }`}
               >
                 {category}
-              </button>
+              </a>
             ))}
           </div>
         </div>
@@ -220,7 +230,7 @@ const Blog = () => {
                     <img
                       src={blog.image || "/placeholder.svg"}
                       alt={blog.title}
-                      className="w-full h-full object-cover min-h-[300px] transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-[400px] object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent md:hidden"></div>
 
@@ -256,7 +266,11 @@ const Blog = () => {
                       <p className="text-gray-300 mb-6">{blog.excerpt}</p>
                     </div>
 
-                    <Button className="self-start bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white shadow-md group">
+                    <a
+                      href="#"
+                      onClick={navigateToBlog}
+                      className="self-start inline-flex items-center justify-center px-4 py-2 rounded-md bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white shadow-md group cursor-pointer"
+                    >
                       <span className="flex items-center">
                         Read Article
                         <ArrowRight
@@ -264,7 +278,7 @@ const Blog = () => {
                           className="ml-2 transition-transform duration-300 group-hover:translate-x-1"
                         />
                       </span>
-                    </Button>
+                    </a>
                   </div>
                 </div>
               ))}
@@ -279,29 +293,33 @@ const Blog = () => {
         {/* Pagination */}
         {filteredBlogs.length > postsPerPage && (
           <div className="flex justify-center items-center space-x-4 mb-10">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={prevPage}
-              disabled={currentPage === 0}
-              className={`border-gray-700 ${
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                prevPage()
+                navigateToBlog(e)
+              }}
+              className={`inline-flex items-center justify-center px-3 py-1 rounded-md border border-gray-700 cursor-pointer ${
                 currentPage === 0 ? "opacity-50 cursor-not-allowed" : "hover:border-red-500/50 hover:text-red-400"
               }`}
             >
               <ChevronLeft size={16} className="mr-1" />
               Previous
-            </Button>
+            </a>
 
             <div className="text-sm text-gray-400">
               Page {currentPage + 1} of {totalPages}
             </div>
 
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={nextPage}
-              disabled={currentPage === totalPages - 1}
-              className={`border-gray-700 ${
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                nextPage()
+                navigateToBlog(e)
+              }}
+              className={`inline-flex items-center justify-center px-3 py-1 rounded-md border border-gray-700 cursor-pointer ${
                 currentPage === totalPages - 1
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:border-red-500/50 hover:text-red-400"
@@ -309,7 +327,7 @@ const Blog = () => {
             >
               Next
               <ChevronRight size={16} className="ml-1" />
-            </Button>
+            </a>
           </div>
         )}
 
@@ -332,7 +350,13 @@ const Blog = () => {
                   placeholder="Your email address"
                   className="w-full sm:w-64 bg-black/50 border border-gray-700 rounded-lg py-2 px-4 text-white placeholder-gray-500 focus:outline-none focus:border-red-500/50"
                 />
-                <Button className="bg-red-600 hover:bg-red-700 text-white">Subscribe</Button>
+                <a
+                  href="#"
+                  onClick={navigateToBlog}
+                  className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white cursor-pointer"
+                >
+                  Subscribe
+                </a>
               </div>
             </div>
           </div>

@@ -1,10 +1,10 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Button } from "@/components/ui/button"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { MapPin, ChevronRight, ArrowRight, Calendar, Clock, Info } from "lucide-react"
+import { Link } from "@inertiajs/react"
 
 const Communities = () => {
   const sectionRef = useRef<HTMLElement>(null)
@@ -62,7 +62,7 @@ const Communities = () => {
       description:
         "Our flagship location serving the Augusta area with comprehensive martial arts programs for all ages and skill levels.",
       members: "Core Location",
-      image: "/augusta-ga.png",
+      image: "/Images/team/Augusta-Riverwalk-Best-Things-to-do-in-Augusta.jpg",
       established: "1982",
       classes: "Mon-Fri: 4pm-8pm, Sat: 9am-12pm",
     },
@@ -72,7 +72,7 @@ const Communities = () => {
       description:
         "Serving the Martinez community with our signature martial arts training and character development programs.",
       members: "Growing Community",
-      image: "/martinez-ga.png",
+      image: "/Images/team/535b81457a154c1399dfddd432cbf866_716x444.jpg",
       established: "1998",
       classes: "Mon-Fri: 3pm-7pm, Sat: 10am-1pm",
     },
@@ -81,7 +81,7 @@ const Communities = () => {
       title: "Grovetown, GA",
       description: "Our newest location bringing martial arts excellence to the Grovetown area at 271 Meridian Drive.",
       members: "New Location",
-      image: "/grovetown-ga.png",
+      image: "/Images/team/adobestock-469148590.jpg",
       established: "2021",
       classes: "Mon-Fri: 4pm-8pm, Sat: 9am-12pm",
     },
@@ -91,7 +91,7 @@ const Communities = () => {
       description:
         "Serving Evans with professional martial arts instruction for all ages at 4150 Washington Road, Suite 4.",
       members: "Main Dojo",
-      image: "/evans-ga.png",
+      image: "/Images/team/ga388endgrovetown.webp",
       established: "1995",
       classes: "Mon-Fri: 4pm-9pm, Sat: 8am-1pm",
     },
@@ -178,18 +178,19 @@ const Communities = () => {
                       </div>
                     </div>
 
-                    <Button
-                      variant="outline"
-                      className="w-full border-red-900/30 text-red-500 hover:bg-red-900/20 hover:border-red-500/50 hover:text-red-400 group"
+                    <Link
+                      href="/contact"
+                      className="w-full inline-flex items-center justify-center bg-red-600 hover:bg-white border border-red-600 rounded-lg px-4 py-2.5 text-white hover:text-black transition-all duration-300 group relative overflow-hidden shadow-sm hover:shadow-red-900/20 hover:shadow-md"
                     >
-                      <span className="flex items-center">
+                      <span className="flex items-center relative z-10">
+                        <MapPin size={14} className="mr-1.5 opacity-80" />
                         Visit Location
                         <ChevronRight
                           size={16}
                           className="ml-2 transition-transform duration-300 group-hover:translate-x-1"
                         />
                       </span>
-                    </Button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -274,12 +275,18 @@ const Communities = () => {
             </div>
 
             <div className="mt-6">
-              <Button className="w-full bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white shadow-md group">
-                <span className="flex items-center">
+              <Link
+                href="/contact"
+                className="w-full inline-flex items-center justify-center bg-red-600 hover:bg-white px-5 py-3 rounded-lg shadow-md hover:shadow-lg hover:shadow-red-900/20 transition-all duration-300 group relative overflow-hidden text-white hover:text-black border border-red-600"
+              >
+                <span className="flex items-center relative z-10">
                   Find a Location Near You
-                  <ArrowRight size={16} className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+                  <ArrowRight
+                    size={16}
+                    className="ml-2 transition-all duration-300 group-hover:translate-x-1.5 group-hover:scale-110"
+                  />
                 </span>
-              </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -287,16 +294,19 @@ const Communities = () => {
         {/* Contact section */}
         <div className="mt-16 text-center">
           <p className="mb-6 text-gray-300">Interested in bringing Seigler's Karate Center to your community?</p>
-          <Button
-            variant="outline"
-            className="rounded-lg border-red-600/30 px-8 py-3 text-red-400 hover:bg-red-900/20 hover:border-red-500/50 hover:text-red-300 transition-all duration-300 shadow-lg shadow-red-900/10 group"
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center rounded-lg bg-red-600 hover:bg-white border border-red-600 px-8 py-3.5 text-white hover:text-black transition-all duration-300 shadow-lg hover:shadow-red-900/20 group"
           >
-            <span className="flex items-center">
-              <Calendar className="mr-2" size={18} />
+            <span className="flex items-center relative z-10">
+              <Calendar className="mr-2 group-hover:animate-pulse" size={18} />
               Schedule a Consultation
-              <ChevronRight size={16} className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+              <ChevronRight
+                size={16}
+                className="ml-2 transition-all duration-300 group-hover:translate-x-1.5 group-hover:scale-110"
+              />
             </span>
-          </Button>
+          </Link>
         </div>
       </div>
     </section>
