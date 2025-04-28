@@ -6,11 +6,13 @@ import Template from "../Programs/Template"
 import AnimatedElement from "@/components/ui/animated-element"
 import { Link } from "@inertiajs/react"
 import { useState, useEffect, useRef } from "react"
+import { ChevronRight, Play, Star, User, Calendar, Award } from "lucide-react"
 
 export default function VideoTestimonials() {
   const [imagesLoaded, setImagesLoaded] = useState(false)
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
   const [activeVideoId, setActiveVideoId] = useState("")
+  const [activeTab, setActiveTab] = useState("all")
   const videoRef = useRef<HTMLIFrameElement>(null)
   const defaultProfilePicture = "/images/team/Default-Profile-Picture-PNG-Image-Transparent-Background.png"
 
@@ -40,6 +42,7 @@ export default function VideoTestimonials() {
       description:
         "When James first came to us at age 8, he was being bullied at school and struggled with self-confidence. After 4 years of dedicated training, he not only earned his black belt but also developed the confidence to stand up for himself and others.",
       videoId: "tAfJPan3ih0",
+      category: "kids",
     },
     {
       id: 2,
@@ -51,6 +54,7 @@ export default function VideoTestimonials() {
       description:
         "After recovering from a serious injury, Sarah found both physical and mental healing through martial arts. Her journey at Seigler's Karate Center demonstrates how martial arts can help rebuild strength, confidence, and resilience.",
       videoId: "5CrGryQ5TtQ",
+      category: "adults",
     },
     {
       id: 3,
@@ -59,6 +63,7 @@ export default function VideoTestimonials() {
       description:
         "What started as karate lessons for their kids turned into a family activity that transformed the Martinez family. Hear how training together has strengthened their bonds and brought positive changes to all their lives.",
       videoId: "v78zxfQmhVk",
+      category: "family",
     },
     {
       id: 4,
@@ -69,273 +74,338 @@ export default function VideoTestimonials() {
       description:
         "Coach Mike has been teaching at Seigler's for over a decade. In this video, he shares his most memorable moments seeing students transform and grow through martial arts training.",
       videoId: "HgZ9U6EC-QU",
+      category: "instructors",
     },
   ]
 
+  const filteredVideos =
+    activeTab === "all" ? videoTestimonials : videoTestimonials.filter((video) => video.category === activeTab)
+
   return (
     <Template title="Video Testimonials">
-      {/* Enhanced decorative elements */}
+      {/* Thin red line at top */}
+      <div className="h-1 w-full bg-gradient-to-r from-red-700 via-red-600 to-red-700"></div>
+
+      {/* Particle animation background */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        {/* Particle animation with more particles and varied sizes */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 left-0 w-full h-full">
-            {Array.from({ length: 40 }).map((_, index) => (
+            {Array.from({ length: 30 }).map((_, index) => (
               <div
                 key={index}
-                className="particle absolute bg-red-500/20 rounded-full"
+                className="particle absolute bg-red-500/10 rounded-full"
                 style={{
-                  width: `${Math.random() * 8 + 2}px`,
-                  height: `${Math.random() * 8 + 2}px`,
+                  width: `${Math.random() * 6 + 2}px`,
+                  height: `${Math.random() * 6 + 2}px`,
                   top: `${Math.random() * 100}%`,
                   left: `${Math.random() * 100}%`,
-                  animation: `float ${Math.random() * 15 + 10}s linear infinite`,
-                  opacity: Math.random() * 0.5 + 0.3,
+                  animation: `float ${Math.random() * 10 + 5}s linear infinite`,
+                  opacity: Math.random() * 0.3 + 0.1,
                 }}
               />
             ))}
           </div>
         </div>
 
-        {/* More decorative blurs with varied sizes and positions */}
-        <div className="absolute top-1/4 -left-20 w-60 h-60 bg-red-600/20 rounded-full filter blur-3xl" />
-        <div className="absolute bottom-1/4 -right-20 w-60 h-60 bg-red-600/20 rounded-full filter blur-3xl" />
-        <div className="absolute top-3/4 left-1/3 w-40 h-40 bg-red-600/10 rounded-full filter blur-3xl" />
-        <div className="absolute top-1/3 right-1/4 w-40 h-40 bg-red-600/10 rounded-full filter blur-3xl" />
+        {/* Decorative blurs */}
+        <div className="absolute top-1/4 -left-20 w-40 h-40 bg-red-600/10 rounded-full filter blur-3xl" />
+        <div className="absolute bottom-1/4 -right-20 w-40 h-40 bg-red-600/10 rounded-full filter blur-3xl" />
       </div>
 
-      <div className="container mx-auto px-4 py-16 relative z-10">
-        {/* Hero Section - Enhanced */}
+      <div className="relative z-10">
+        {/* Hero Banner - Full Width */}
         <AnimatedElement type="fadeIn" delay={0.2}>
-          <div className="flex items-center justify-center mb-6">
-            <div className="h-px w-20 bg-gradient-to-r from-transparent to-red-600"></div>
-            <h1 className="text-4xl md:text-6xl font-bold text-center px-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 tracking-tight">
-              Video Testimonials
-            </h1>
-            <div className="h-px w-20 bg-gradient-to-l from-transparent to-red-600"></div>
-          </div>
-          <div className="w-32 h-1 bg-gradient-to-r from-red-700 to-red-500 mx-auto mb-6 rounded-full shadow-sm"></div>
-        </AnimatedElement>
+          <div className="relative h-[40vh] min-h-[300px] w-full overflow-hidden">
+            {/* Background image with overlay */}
+            <div className="absolute inset-0 bg-black">
+              {imagesLoaded && (
+                <img
+                  src="https://img.youtube.com/vi/tAfJPan3ih0/maxresdefault.jpg"
+                  alt="Success Stories"
+                  className="w-full h-full object-cover opacity-40"
+                  onError={handleImageError}
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/50"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-red-900/30 to-transparent"></div>
+            </div>
 
-        <AnimatedElement type="fadeIn" delay={0.3}>
-          <p className="text-xl md:text-2xl text-center text-gray-300 mb-16 max-w-3xl mx-auto leading-relaxed">
-            Watch inspiring videos from our students sharing their martial arts journey at Seigler's Karate Center.
-          </p>
-        </AnimatedElement>
-
-        {/* Japanese-inspired decorative element */}
-        <div className="flex justify-center mb-16">
-          <div className="w-16 h-16 relative">
-            <div className="absolute inset-0 border-2 border-red-600 rounded-full"></div>
-            <div className="absolute inset-2 border border-red-600/50 rounded-full"></div>
-            <div className="absolute inset-4 border border-red-600/30 rounded-full"></div>
-            <div className="absolute inset-6 border border-red-600/20 rounded-full"></div>
-          </div>
-        </div>
-
-        {/* Video Testimonials Grid - Enhanced */}
-        <div className="mb-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {videoTestimonials.map((video, index) => (
-              <AnimatedElement key={video.id} type="fadeInUp" delay={0.4 + index * 0.1}>
-                <div className="rounded-2xl overflow-hidden h-full flex flex-col border border-red-900/50 bg-black/70 backdrop-blur-md shadow-[0_0_25px_rgba(0,0,0,0.7)] transition-all duration-500 hover:shadow-[0_0_35px_rgba(139,0,0,0.3)] transform hover:-translate-y-1">
-                  <div className="relative">
-                    {imagesLoaded && (
-                      <div className="w-full h-64 relative overflow-hidden">
-                        <img
-                          src={`https://img.youtube.com/vi/${video.videoId}/maxresdefault.jpg`}
-                          alt={video.title}
-                          className="w-full h-full object-cover"
-                          onError={handleImageError}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <button
-                        onClick={() => handlePlayVideo(video.videoId)}
-                        className="w-20 h-20 bg-gradient-to-br from-red-600 to-red-800 rounded-full flex items-center justify-center hover:from-red-700 hover:to-red-900 transition-all duration-300 transform hover:scale-110 shadow-[0_0_25px_rgba(220,38,38,0.5)]"
-                      >
-                        <svg
-                          className="w-10 h-10 text-white ml-1"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </button>
-                    </div>
+            {/* Content */}
+            <div className="absolute inset-0 flex items-center">
+              <div className="container mx-auto px-4">
+                <div className="max-w-2xl">
+                  <div className="flex items-center mb-4">
+                    <div className="h-1 w-12 bg-red-600 mr-4"></div>
+                    <Star className="h-5 w-5 text-red-500" />
                   </div>
-                  <div className="p-8 flex-grow flex flex-col relative">
-                    {/* Decorative element */}
-                    <div className="absolute top-0 right-0 w-20 h-20 opacity-10">
-                      <svg viewBox="0 0 100 100" className="w-full h-full fill-current text-red-600">
-                        <path d="M50,0 C77.6,0 100,22.4 100,50 C100,77.6 77.6,100 50,100 C22.4,100 0,77.6 0,50 C0,22.4 22.4,0 50,0 Z M50,20 C33.4,20 20,33.4 20,50 C20,66.6 33.4,80 50,80 C66.6,80 80,66.6 80,50 C80,33.4 66.6,20 50,20 Z" />
-                      </svg>
-                    </div>
+                  <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">Success Stories</h1>
+                  <div className="w-24 h-1 bg-gradient-to-r from-red-700 to-red-500 mb-4"></div>
+                  <p className="text-gray-300 text-lg mb-6 max-w-xl">
+                    Watch inspiring videos from our students sharing their martial arts journey at Seigler's Karate
+                    Center.
+                  </p>
+                  <button
+                    onClick={() => handlePlayVideo("tAfJPan3ih0")}
+                    className="bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white py-3 px-6 rounded-lg transition-all duration-300 shadow-md border border-red-500/30 flex items-center"
+                  >
+                    <Play className="mr-2 h-5 w-5" />
+                    Watch Featured Video
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </AnimatedElement>
 
-                    <div className="bg-gradient-to-r from-red-700 to-red-900 text-white text-sm font-semibold px-4 py-2 rounded-lg inline-block mb-4 shadow-lg border border-red-600/30 self-start">
-                      {video.title}
-                    </div>
-
-                    <h3 className="text-2xl font-bold mb-3">{video.name}</h3>
-                    <div className="flex items-center mb-6">
-                      <div className="h-px w-12 bg-red-600/70"></div>
-                      <p className="text-gray-400 px-3 text-sm">
-                        {video.age && `${video.age} years old`}
-                        {video.program && (video.age ? ` | ${video.program}` : video.program)}
-                        {video.years &&
-                          (video.program || video.age
-                            ? ` | ${video.years} ${video.years === 1 ? "year" : "years"} of training`
-                            : `${video.years} ${video.years === 1 ? "year" : "years"} of training`)}
-                      </p>
-                    </div>
-                    <p className="text-gray-300 mb-8 flex-grow">{video.description}</p>
-                    <button
-                      onClick={() => handlePlayVideo(video.videoId)}
-                      className="self-start bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-3 px-6 rounded-lg transition-all duration-300 shadow-lg border border-red-500/30 transform hover:scale-105"
-                    >
-                      Watch Video
+        {/* Main Content */}
+        <div className="container mx-auto px-4 py-12">
+          {/* Video Player Section - Appears when a video is playing */}
+          {isVideoPlaying && (
+            <AnimatedElement type="fadeIn" delay={0.1}>
+              <div className="mb-12 rounded-xl overflow-hidden border border-red-900/30 bg-black/60 backdrop-blur-sm shadow-xl">
+                <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+                  <iframe
+                    ref={videoRef}
+                    width="100%"
+                    height="100%"
+                    src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1`}
+                    title="Student Success Story"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0"
+                  ></iframe>
+                </div>
+                <div className="p-4 bg-black/80 border-t border-red-900/30">
+                  <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
+                    Now Playing
+                  </h3>
+                  <div className="w-16 h-0.5 bg-gradient-to-r from-red-700 to-red-500 my-2 rounded-full"></div>
+                  <div className="flex justify-between items-center">
+                    <p className="text-gray-300 text-sm">
+                      {videoTestimonials.find((v) => v.videoId === activeVideoId)?.title || "Student Success Story"}
+                    </p>
+                    <button onClick={() => setIsVideoPlaying(false)} className="text-gray-400 hover:text-white text-sm">
+                      Close Video
                     </button>
                   </div>
                 </div>
-              </AnimatedElement>
-            ))}
-          </div>
-        </div>
+              </div>
+            </AnimatedElement>
+          )}
 
-        {/* Featured Video Section - Enhanced */}
-        <AnimatedElement type="fadeIn" delay={0.8}>
-          <div className="rounded-2xl overflow-hidden mb-20 border border-red-900/50 bg-black/70 backdrop-blur-md shadow-[0_0_25px_rgba(0,0,0,0.7)]">
-            <div className="md:flex">
-              <div className="md:w-2/3 relative">
-                <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
-                  {isVideoPlaying ? (
-                    <iframe
-                      ref={videoRef}
-                      width="100%"
-                      height="100%"
-                      src={`https://www.youtube.com/embed/${activeVideoId || "tAfJPan3ih0"}?autoplay=1`}
-                      title="Student Success Highlights"
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="absolute inset-0"
-                    ></iframe>
-                  ) : (
-                    <>
+          {/* Category Tabs - New */}
+          <AnimatedElement type="fadeIn" delay={0.3}>
+            <div className="mb-8">
+              <div className="flex flex-wrap justify-center gap-2 md:gap-4">
+                <button
+                  onClick={() => setActiveTab("all")}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeTab === "all"
+                      ? "bg-gradient-to-r from-red-700 to-red-600 text-white shadow-md"
+                      : "bg-black/40 text-gray-300 hover:bg-black/60"
+                  }`}
+                >
+                  All Stories
+                </button>
+                <button
+                  onClick={() => setActiveTab("kids")}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeTab === "kids"
+                      ? "bg-gradient-to-r from-red-700 to-red-600 text-white shadow-md"
+                      : "bg-black/40 text-gray-300 hover:bg-black/60"
+                  }`}
+                >
+                  Kids
+                </button>
+                <button
+                  onClick={() => setActiveTab("adults")}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeTab === "adults"
+                      ? "bg-gradient-to-r from-red-700 to-red-600 text-white shadow-md"
+                      : "bg-black/40 text-gray-300 hover:bg-black/60"
+                  }`}
+                >
+                  Adults
+                </button>
+                <button
+                  onClick={() => setActiveTab("family")}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeTab === "family"
+                      ? "bg-gradient-to-r from-red-700 to-red-600 text-white shadow-md"
+                      : "bg-black/40 text-gray-300 hover:bg-black/60"
+                  }`}
+                >
+                  Families
+                </button>
+                <button
+                  onClick={() => setActiveTab("instructors")}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeTab === "instructors"
+                      ? "bg-gradient-to-r from-red-700 to-red-600 text-white shadow-md"
+                      : "bg-black/40 text-gray-300 hover:bg-black/60"
+                  }`}
+                >
+                  Instructors
+                </button>
+              </div>
+            </div>
+          </AnimatedElement>
+
+          {/* Video Testimonials - Masonry Grid Layout */}
+          <div className="mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {filteredVideos.map((video, index) => (
+                <AnimatedElement
+                  key={video.id}
+                  type="fadeInUp"
+                  delay={0.4 + index * 0.1}
+                  className={`${index === 0 ? "md:col-span-2 md:row-span-2" : ""}`}
+                >
+                  <div
+                    className={`rounded-xl overflow-hidden border border-red-900/30 bg-black/60 backdrop-blur-sm shadow-lg transition-all duration-300 hover:shadow-xl hover:border-red-600/40 h-full flex flex-col ${
+                      index === 0 ? "md:col-span-2" : ""
+                    }`}
+                  >
+                    <div className="relative">
                       {imagesLoaded && (
-                        <div className="absolute inset-0 overflow-hidden">
+                        <div className={`w-full relative overflow-hidden ${index === 0 ? "h-64" : "h-48"}`}>
                           <img
-                            src="https://img.youtube.com/vi/tAfJPan3ih0/maxresdefault.jpg"
-                            alt="How SKC Boosted This Child's Confidence and Leadership"
-                            className="w-full h-full object-cover opacity-60"
+                            src={`https://img.youtube.com/vi/${video.videoId}/maxresdefault.jpg`}
+                            alt={video.title}
+                            className="w-full h-full object-cover"
                             onError={handleImageError}
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/50"></div>
+                          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>
                         </div>
                       )}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-center">
-                          <button
-                            onClick={() => handlePlayVideo("tAfJPan3ih0")}
-                            className="w-24 h-24 bg-gradient-to-br from-red-600 to-red-800 rounded-full flex items-center justify-center hover:from-red-700 hover:to-red-900 transition-all duration-300 transform hover:scale-110 shadow-[0_0_35px_rgba(220,38,38,0.5)] mx-auto mb-6"
-                          >
-                            <svg
-                              className="w-12 h-12 text-white ml-1"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </button>
-                          <p className="text-white text-xl font-medium">
-                            Click to watch our student success highlights
-                          </p>
+                        <button
+                          onClick={() => handlePlayVideo(video.videoId)}
+                          className={`${index === 0 ? "w-20 h-20" : "w-16 h-16"} bg-gradient-to-br from-red-600 to-red-800 rounded-full flex items-center justify-center hover:from-red-700 hover:to-red-900 transition-all duration-300 transform hover:scale-110 shadow-lg`}
+                        >
+                          <Play className={`${index === 0 ? "w-10 h-10" : "w-8 h-8"} text-white ml-1`} />
+                        </button>
+                      </div>
+
+                      {/* Category Badge */}
+                      <div className="absolute top-3 left-3">
+                        <div className="bg-black/70 text-white text-xs font-semibold px-2 py-1 rounded-md border border-red-600/30">
+                          {video.category === "kids" && "Kids Program"}
+                          {video.category === "adults" && "Adult Program"}
+                          {video.category === "family" && "Family Success"}
+                          {video.category === "instructors" && "Instructor"}
                         </div>
                       </div>
-                    </>
-                  )}
+                    </div>
+
+                    <div className="p-4 flex-grow flex flex-col">
+                      <div className="bg-gradient-to-r from-red-700 to-red-900 text-white text-xs font-semibold px-3 py-1 rounded-lg inline-block mb-3 shadow-md border border-red-600/30 self-start">
+                        {video.title}
+                      </div>
+
+                      <h3 className={`${index === 0 ? "text-xl" : "text-lg"} font-bold mb-2`}>{video.name}</h3>
+
+                      {/* Info Icons */}
+                      <div className="flex flex-wrap gap-3 mb-3">
+                        {video.age && (
+                          <div className="flex items-center text-xs text-gray-400">
+                            <User className="h-3 w-3 mr-1" />
+                            <span>{video.age} years old</span>
+                          </div>
+                        )}
+                        {video.program && (
+                          <div className="flex items-center text-xs text-gray-400">
+                            <Award className="h-3 w-3 mr-1" />
+                            <span>{video.program}</span>
+                          </div>
+                        )}
+                        {video.years && (
+                          <div className="flex items-center text-xs text-gray-400">
+                            <Calendar className="h-3 w-3 mr-1" />
+                            <span>
+                              {video.years} {video.years === 1 ? "year" : "years"} training
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      <p className="text-gray-300 text-sm mb-4 flex-grow">{video.description}</p>
+
+                      <button
+                        onClick={() => handlePlayVideo(video.videoId)}
+                        className="self-start bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white py-2 px-4 rounded-lg transition-all duration-300 shadow-md border border-red-500/30 text-sm flex items-center"
+                      >
+                        Watch Video
+                        <ChevronRight className="ml-1 h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                </AnimatedElement>
+              ))}
+            </div>
+          </div>
+
+          {/* Testimonial Quote Section - New */}
+          <AnimatedElement type="fadeIn" delay={0.7}>
+            <div className="mb-16 relative rounded-xl overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-red-900 to-red-800"></div>
+              <div className="absolute top-0 left-0 w-40 h-40 bg-red-600/20 rounded-full filter blur-3xl"></div>
+              <div className="absolute bottom-0 right-0 w-40 h-40 bg-red-600/20 rounded-full filter blur-3xl"></div>
+
+              <div className="relative z-10 p-8 md:p-12">
+                <div className="text-6xl text-red-500/30 font-serif absolute top-4 left-8">"</div>
+                <blockquote className="text-white text-lg md:text-xl italic max-w-3xl mx-auto text-center px-8 md:px-12">
+                  Seigler's Karate Center has transformed not just my child's physical abilities, but their entire
+                  outlook on life. The confidence, discipline, and respect they've gained extends far beyond the dojo.
+                </blockquote>
+                <div className="text-6xl text-red-500/30 font-serif absolute bottom-4 right-8">"</div>
+                <div className="mt-6 text-center">
+                  <p className="text-white font-medium">Jennifer Williams</p>
+                  <p className="text-gray-300 text-sm">Parent of a Black Belt Student</p>
                 </div>
               </div>
-              <div className="md:w-1/3 p-10 relative">
-                {/* Decorative element */}
-                <div className="absolute top-0 right-0 w-20 h-20 opacity-10">
-                  <svg viewBox="0 0 100 100" className="w-full h-full fill-current text-red-600">
-                    <path d="M50,0 C77.6,0 100,22.4 100,50 C100,77.6 77.6,100 50,100 C22.4,100 0,77.6 0,50 C0,22.4 22.4,0 50,0 Z M50,20 C33.4,20 20,33.4 20,50 C20,66.6 33.4,80 50,80 C66.6,80 80,66.6 80,50 C80,33.4 66.6,20 50,20 Z" />
-                  </svg>
-                </div>
+            </div>
+          </AnimatedElement>
 
-                <h3 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
-                  {isVideoPlaying ? "Now Playing" : "Student Success Highlights"}
-                </h3>
-                <div className="w-20 h-1 bg-gradient-to-r from-red-700 to-red-500 mb-6 rounded-full"></div>
-                <p className="text-gray-300 mb-8 leading-relaxed">
-                  {isVideoPlaying
-                    ? "Watch how SKC has boosted this child's confidence and leadership skills through martial arts training. See the real transformation that happens at Seigler's Karate Center."
-                    : "This video showcases how SKC goes beyond teaching martial arts. It's about real growth—at home, at school, and in life. From building confidence and discipline to encouraging leadership, every child can thrive at Seigler's Karate Center."}
+          {/* CTA - Updated */}
+          <AnimatedElement type="fadeIn" delay={0.8}>
+            <div className="rounded-xl overflow-hidden relative">
+              <div className="absolute inset-0 bg-black/80 z-0"></div>
+
+              {/* Decorative elements */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-64 h-64 border-2 border-red-600/20 rounded-full"></div>
+                <div className="w-48 h-48 border-2 border-red-600/30 rounded-full absolute"></div>
+                <div className="w-32 h-32 border-2 border-red-600/40 rounded-full absolute"></div>
+              </div>
+
+              <div className="relative z-10 p-8 text-center">
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Ready to Begin Your Journey?</h2>
+                <p className="text-gray-300 text-sm md:text-base mb-6 max-w-2xl mx-auto">
+                  Join our community and start your martial arts journey at Seigler's Karate Center. Your transformation
+                  begins with a single step.
                 </p>
-                {!isVideoPlaying && (
-                  <button
-                    onClick={() => handlePlayVideo("tAfJPan3ih0")}
-                    className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white py-3 px-6 rounded-lg transition-all duration-300 shadow-lg border border-red-500/30 transform hover:scale-105"
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Link
+                    href="/contact"
+                    className="bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 text-white py-3 px-6 rounded-lg shadow-md transition-all duration-300 text-sm flex items-center justify-center"
                   >
-                    Watch Video
-                  </button>
-                )}
+                    Start with a Free Class
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Link>
+                  <Link
+                    href="/success-stories"
+                    className="bg-transparent border border-red-600/50 text-white hover:bg-red-600/10 font-medium py-3 px-6 rounded-lg shadow-md transition-all duration-300 text-sm flex items-center justify-center"
+                  >
+                    View All Success Stories
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        </AnimatedElement>
-
-        {/* Japanese-inspired decorative element */}
-        <div className="flex justify-center mb-16">
-          <div className="w-32 h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
+          </AnimatedElement>
         </div>
-
-        {/* CTA - Enhanced */}
-        <AnimatedElement type="fadeIn" delay={0.9}>
-          <div className="rounded-2xl overflow-hidden relative mb-10">
-            {/* Enhanced background with gradient only */}
-            <div className="absolute inset-0 bg-gradient-to-r from-red-800 to-red-950 z-0"></div>
-
-            {/* Enhanced decorative elements */}
-            <div className="absolute top-0 left-0 w-60 h-60 bg-red-600/30 rounded-full filter blur-3xl"></div>
-            <div className="absolute bottom-0 right-0 w-60 h-60 bg-red-600/30 rounded-full filter blur-3xl"></div>
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-red-600/10 rounded-full filter blur-3xl"></div>
-
-            <div className="relative z-10 p-12 text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Be Our Next Success Story?</h2>
-              <p className="text-white text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
-                Join our community and start your martial arts journey at Seigler's Karate Center. Your transformation
-                begins with a single step.
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-6">
-                <Link
-                  href="/contact"
-                  className="bg-white text-red-700 hover:bg-gray-100 font-medium py-4 px-10 rounded-lg shadow-lg transition-all duration-300 text-lg border border-white/30 hover:scale-105 transform"
-                >
-                  Start with a Free Class
-                </Link>
-                <Link
-                  href="/success-stories"
-                  className="bg-transparent border-2 border-white text-white hover:bg-white/10 font-medium py-4 px-10 rounded-lg shadow-lg transition-all duration-300 text-lg hover:scale-105 transform"
-                >
-                  Back to All Success Stories
-                </Link>
-              </div>
-            </div>
-          </div>
-        </AnimatedElement>
       </div>
     </Template>
   )
